@@ -8,7 +8,7 @@ from src.views import StartWindow
 def start_gui():
     cam_0_on, cam_1_on = check_cameras()
 
-    resolution = (640, 480)
+    resolution = (1280, 720)
     fourcc = "XVID"
     fps = 30
     timestamped = True

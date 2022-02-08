@@ -1,4 +1,3 @@
-from ctypes import alignment
 from time import time
 
 import cv2
@@ -30,16 +29,21 @@ class VideoPlayer(QWidget):
             if self.source is Camera
             else 0
         )
+        w, h = (
+            self.source.resolution if isinstance(self.source, Camera) else (1280, 720)
+        )
 
         layout = QVBoxLayout()
 
         self.image_view = QLabel()
         self.image_view.setAlignment(Qt.AlignVCenter)
+        self.image_view.setFixedSize(w, h)
         layout.addWidget(self.image_view)
 
         self.default_fps_label = "0.00 FPS"
         self.fps_label = QLabel(self.default_fps_label)
         self.fps_label.setContentsMargins(5, 0, 5, 0)
+        self.fps_label.setFixedSize(w * 0.1, h * 0.03)
         self.fps_label.setAlignment(Qt.AlignVCenter)
         layout.addWidget(self.fps_label)
 
@@ -59,8 +63,7 @@ class VideoPlayer(QWidget):
         self.realtime_fps = 0.0
         self.frame_counter = 0
 
-        w, h = self.source.resolution if self.source is Camera else (640, 480)
-        self.black_frame = np.ones((h, w * 2, 3))
+        self.black_frame = np.ones((h, w, 3))
         self._set_default_image()
 
     def start_video(self):
