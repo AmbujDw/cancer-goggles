@@ -3,7 +3,7 @@ channels:
   - conda-forge
 dependencies:
   - python=3.8
-  - cython=0.29.22
+  - cython=0.29.27
   - matplotlib
   - scikit-image
   - black
@@ -11,6 +11,6 @@ dependencies:
   - pytest
   - pip
   - pip:
-    - pyqt5=5.15.4
+    - PySide6
     - opencv-python
     - dearpygui

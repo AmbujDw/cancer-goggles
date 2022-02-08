@@ -1,9 +1,10 @@
+from ctypes import alignment
 from time import time
 
 import cv2
 import numpy as np
-from PyQt5.QtCore import Qt, QTimer
-from PyQt5.QtWidgets import (
+from PySide6.QtCore import Qt, QTimer
+from PySide6.QtWidgets import (
     QCheckBox,
     QGridLayout,
     QLabel,
@@ -59,7 +60,7 @@ class VideoPlayer(QWidget):
         self.frame_counter = 0
 
         w, h = self.source.resolution if self.source is Camera else (640, 480)
-        self.black_frame = np.ones((h, w, 3))
+        self.black_frame = np.ones((h, w * 2, 3))
         self._set_default_image()
 
     def start_video(self):

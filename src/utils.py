@@ -2,7 +2,7 @@ from datetime import datetime
 from enum import Enum
 
 import cv2
-from PyQt5.QtGui import QImage, QPixmap
+from PySide6.QtGui import QImage, QPixmap
 
 
 class Surgery(Enum):
@@ -12,7 +12,7 @@ class Surgery(Enum):
     C = 4
 
 
-def check_cameras() -> (bool, bool):
+def check_cameras():
     cam_0 = cv2.VideoCapture(0)
     cam_0_on, _ = cam_0.read()
     cam_0.release()

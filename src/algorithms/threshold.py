@@ -17,7 +17,7 @@ def threshold_yen(image=None, nbins=256, *, hist=None):
     # Calculate probability mass function
     pmf = counts.astype(np.float32) / counts.sum()
     P1 = np.cumsum(pmf)  # Cumulative normalized histogram
-    P1_sq = np.cumsum(pmf ** 2)
+    P1_sq = np.cumsum(pmf**2)
     # Get cumsum calculated from end of squared array:
     P2_sq = np.cumsum(pmf[::-1] ** 2)[::-1]
     # P2_sq indexes is shifted +1. I assume, with P1[:-1] it's help avoid
