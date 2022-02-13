@@ -1,5 +1,4 @@
-from PySide6.QtWidgets import QApplication
-
+from src.ui import widgets  # isort: skip
 from src.models import Camera
 from src.utils import check_cameras
 from src.views import StartWindow
@@ -24,7 +23,7 @@ def start_gui():
         else None
     )
 
-    app = QApplication([])
+    app = widgets.QApplication([])
     start_window = StartWindow((camera_0, camera_1))
     start_window.show()
     app.exit(app.exec_())

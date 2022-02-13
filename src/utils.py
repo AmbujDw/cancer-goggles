@@ -2,7 +2,8 @@ from datetime import datetime
 from enum import Enum
 
 import cv2
-from PySide6.QtGui import QImage, QPixmap
+
+from src.ui import gui
 
 
 class Surgery(Enum):
@@ -26,8 +27,8 @@ def ndarray_to_qpixmap(img):
     if img.ndim == 2:
         img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
     w, h, _ = img.shape
-    qimg = QImage(img.data, h, w, 3 * h, QImage.Format_RGB888)
-    return QPixmap(qimg)
+    qimg = gui.QImage(img.data, h, w, 3 * h, gui.QImage.Format_RGB888)
+    return gui.QPixmap(qimg)
 
 
 def to_timestamped_frame(img):

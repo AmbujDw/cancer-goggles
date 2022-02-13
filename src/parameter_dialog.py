@@ -1,20 +1,21 @@
-from PySide6.QtWidgets import QDialog, QDialogButtonBox, QVBoxLayout
-
+from src.ui import widgets
 from src.parameter_item import ParameterItem
 
 
-class ParameterDialog(QDialog):
+class ParameterDialog(widgets.QDialog):
     def __init__(self, parameters: dict):
         super().__init__()
         self.setWindowTitle("Edit Parameters")
         self.item_list = []
         for name, (low, high, step, default) in parameters.items():
             self.item_list.append(ParameterItem(name, low, high, step, default))
-        btn_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        btn_box = widgets.QDialogButtonBox(
+            widgets.QDialogButtonBox.Ok | widgets.QDialogButtonBox.Cancel
+        )
         btn_box.accepted.connect(self.accept)
         btn_box.rejected.connect(self.reject)
 
-        layout = QVBoxLayout()
+        layout = widgets.QVBoxLayout()
         for item in self.item_list:
             layout.addWidget(item)
         layout.addWidget(btn_box)

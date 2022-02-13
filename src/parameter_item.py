@@ -1,25 +1,24 @@
-from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QGroupBox, QHBoxLayout, QLabel, QSlider
+from src.ui import core, widgets
 
 
-class ParameterItem(QGroupBox):
+class ParameterItem(widgets.QGroupBox):
     def __init__(self, name, low, high, step, default):
         super().__init__()
-        layout = QHBoxLayout()
+        layout = widgets.QHBoxLayout()
 
-        label_param_name = QLabel(name)
-        label_param_name.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
+        label_param_name = widgets.QLabel(name)
+        label_param_name.setAlignment(core.Qt.AlignLeft | core.Qt.AlignVCenter)
         label_param_name.setMinimumWidth(100)
         layout.addWidget(label_param_name)
 
-        param_slider = QSlider(Qt.Horizontal)
+        param_slider = widgets.QSlider(widgets.Qt.Horizontal)
         param_slider.setRange(int(low / step), int(high / step))
-        param_slider.setFocusPolicy(Qt.NoFocus)
+        param_slider.setFocusPolicy(core.Qt.NoFocus)
         param_slider.valueChanged.connect(self.change_value)
         layout.addWidget(param_slider)
 
-        label_value = QLabel(str(default))
-        label_value.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+        label_value = widgets.QLabel(str(default))
+        label_value.setAlignment(core.Qt.AlignRight | core.Qt.AlignVCenter)
         label_value.setMinimumWidth(40)
         layout.addWidget(label_value)
         self.label = label_value

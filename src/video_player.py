@@ -2,22 +2,14 @@ from time import time
 
 import cv2
 import numpy as np
-from PySide6.QtCore import Qt, QTimer
-from PySide6.QtWidgets import (
-    QCheckBox,
-    QGridLayout,
-    QLabel,
-    QPushButton,
-    QVBoxLayout,
-    QWidget,
-)
 
+from src.ui import core, widgets  # isort: skip
 from src.algorithms.threshold import thresholding
 from src.models import Camera
 from src.utils import ndarray_to_qpixmap
 
 
-class VideoPlayer(QWidget):
+class VideoPlayer(widgets.QWidget):
 
     milliseconds_per_seconds = 1000
 
@@ -33,18 +25,18 @@ class VideoPlayer(QWidget):
             self.source.resolution if isinstance(self.source, Camera) else (1280, 720)
         )
 
-        layout = QVBoxLayout()
+        layout = widgets.QVBoxLayout()
 
-        self.image_view = QLabel()
-        self.image_view.setAlignment(Qt.AlignVCenter)
+        self.image_view = widgets.QLabel()
+        self.image_view.setAlignment(core.Qt.AlignVCenter)
         self.image_view.setFixedSize(w, h)
         layout.addWidget(self.image_view)
 
         self.default_fps_label = "0.00 FPS"
-        self.fps_label = QLabel(self.default_fps_label)
+        self.fps_label = widgets.QLabel(self.default_fps_label)
         self.fps_label.setContentsMargins(5, 0, 5, 0)
         self.fps_label.setFixedSize(w * 0.1, h * 0.03)
-        self.fps_label.setAlignment(Qt.AlignVCenter)
+        self.fps_label.setAlignment(core.Qt.AlignVCenter)
         layout.addWidget(self.fps_label)
 
         disable = True if self.source is None else False
@@ -53,10 +45,10 @@ class VideoPlayer(QWidget):
 
         self.setLayout(layout)
 
-        self.timer_video = QTimer()
+        self.timer_video = core.QTimer()
         self.timer_video.timeout.connect(self.update_image)
 
-        self.timer_fps = QTimer()
+        self.timer_fps = core.QTimer()
         self.timer_fps.timeout.connect(self.update_fps)
 
         self.curr_time = 1.0
@@ -129,41 +121,41 @@ class VideoPlayer(QWidget):
         self.image_view.setPixmap(frame_pixmap)
 
 
-class VideoControlPanel(QWidget):
+class VideoControlPanel(widgets.QWidget):
     def __init__(self, disable=False):
         super().__init__()
-        layout = QGridLayout()
-        btn_start = QPushButton("Start")
+        layout = widgets.QGridLayout()
+        btn_start = widgets.QPushButton("Start")
         btn_start.clicked.connect(self.start)
         btn_start.setDisabled(disable)
         layout.addWidget(btn_start, 0, 0)
 
-        btn_stop = QPushButton("Stop")
+        btn_stop = widgets.QPushButton("Stop")
         btn_stop.clicked.connect(self.stop)
         btn_stop.setDisabled(disable)
         layout.addWidget(btn_stop, 0, 1)
 
-        btn_snap = QPushButton("Snapshot")
+        btn_snap = widgets.QPushButton("Snapshot")
         btn_snap.clicked.connect(self.snapshot)
         btn_snap.setDisabled(disable)
         layout.addWidget(btn_snap, 1, 0, 1, 2)
 
-        self.cbx_record = QCheckBox("Record")
+        self.cbx_record = widgets.QCheckBox("Record")
         self.cbx_record.stateChanged.connect(self.record)
         self.cbx_record.setDisabled(disable)
         layout.addWidget(self.cbx_record, 2, 0)
 
-        self.cbx_goggle = QCheckBox("To Goggle")
+        self.cbx_goggle = widgets.QCheckBox("To Goggle")
         self.cbx_goggle.stateChanged.connect(self.to_goggle)
         self.cbx_goggle.setDisabled(disable)
         layout.addWidget(self.cbx_goggle, 2, 1)
 
-        self.cbx_segmentation = QCheckBox("Segmentation")
+        self.cbx_segmentation = widgets.QCheckBox("Segmentation")
         self.cbx_segmentation.stateChanged.connect(self.segmentation)
         self.cbx_segmentation.setDisabled(disable)
         layout.addWidget(self.cbx_segmentation, 3, 0)
 
-        self.cbx_superimposed = QCheckBox("Superimposed")
+        self.cbx_superimposed = widgets.QCheckBox("Superimposed")
         self.cbx_superimposed.stateChanged.connect(self.superimposed)
         self.cbx_superimposed.setDisabled(disable)
         layout.addWidget(self.cbx_superimposed, 3, 1)
@@ -186,20 +178,20 @@ class VideoControlPanel(QWidget):
         self.parent().snapshot()
 
     def record(self, state):
-        self.is_recording = True if state == Qt.Checked else False
+        self.is_recording = True if state == core.Qt.Checked else False
         if self.is_recording and not self.parent().video_writer_initialized():
             self.parent().initialize_video_writer()
 
     def to_goggle(self, state):
-        self.project_to_goggle = True if state == Qt.Checked else False
+        self.project_to_goggle = True if state == core.Qt.Checked else False
         if not self.project_to_goggle:
             cv2.destroyAllWindows()
 
     def segmentation(self, state):
-        self.segmentation_on = True if state == Qt.Checked else False
+        self.segmentation_on = True if state == core.Qt.Checked else False
 
     def superimposed(self, state):
-        self.superimposed_on = True if state == Qt.Checked else False
+        self.superimposed_on = True if state == core.Qt.Checked else False
         if self.superimposed_on and not self.segmentation_on:
             self.cbx_segmentation.click()
 
