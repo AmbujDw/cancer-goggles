@@ -52,8 +52,6 @@ Inside the `goggles-dev` environment, install dependencies
 pip install numpy opencv-python-headless
 ```
 
-#### Note: All DLLs are taken from https://github.com/open-ephys/plugin-GUI
-
 ## Start the GUI
 Within `goggles-dev` environment,
 ```shell
