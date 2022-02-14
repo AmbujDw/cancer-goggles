@@ -1,4 +1,3 @@
-from os import environ
 from pathlib import Path
 from queue import Queue
 from threading import Thread
@@ -7,10 +6,6 @@ from time import time
 import cv2
 
 from src.utils import to_timestamped_frame
-
-for key, val in environ.items():
-    if key.startswith("QT_") and "cv2" in val:
-        del environ[key]
 
 
 class Camera:
