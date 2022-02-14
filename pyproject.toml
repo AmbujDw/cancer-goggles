@@ -5,11 +5,6 @@ requires = [
 ]
 build-backend = "setuptools.build_meta"
 
-[tool.pytest.ini_options]
-minversion = "6.0"
-testpaths = "tests"
-addopts = "--strict-markers"
-
 [tool.black]
 target-version = ['py38']
 

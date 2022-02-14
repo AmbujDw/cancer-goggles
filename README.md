@@ -28,8 +28,8 @@ Qt's support for Arm devices is not great. The only prebuild Qt library on Arm i
 This instruction is for [Ubuntu Desktop 21.10 for Raspberry Pi 4](https://ubuntu.com/download/raspberry-pi). 
 
 We chose Ubuntu rather than Raspbian because 64-bit system performs better than 32-bit system with enough resource, 
-and Pi 4 has enough memory take all benefits of a 64-bit OS. Also, the default Python3 version of Ubuntu 20.10
-is 3.8, which is identical to the version used in development. So this OS requires the least setup.
+and Pi 4 has enough memory take all benefits of a 64-bit OS. Also, the default Python3 version of Ubuntu 21.10
+is 3.9, which is identical to the version used in development. So this OS requires the least setup.
 
 The following might not be the optimal solution. But it works for now.
 
@@ -49,7 +49,7 @@ python3 -m venv ~/virtualenvs/goggles-dev --system-site-packages
 
 Inside the `goggles-dev` environment, install dependencies
 ```shell
-pip install numpy opencv-python pytest
+pip install numpy opencv-python-headless
 ```
 
 #### Note: All DLLs are taken from https://github.com/open-ephys/plugin-GUI
@@ -65,7 +65,7 @@ goggles
 ```
 
 ## QT Python Bindings
-There are two popular Python Qt bindings: PyQT and PySide. We are currently using PyQt5 5.15.0, which is the latest
+There are two popular Python Qt bindings: PyQT and PySide. We are currently using PyQt5 5.15.4, which is the latest
 version available via `apt` on Ubuntu.
 
 ## Alternatives of Qt

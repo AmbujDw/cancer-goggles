@@ -2,7 +2,7 @@ name: goggles-dev
 channels:
   - conda-forge
 dependencies:
-  - python=3.8
+  - python=3.9
   - cython=0.29.27
   - matplotlib
   - scikit-image
@@ -12,5 +12,5 @@ dependencies:
   - pip
   - pip:
     - PySide6
-    - opencv-python
+    - opencv-python-headless
     - dearpygui
