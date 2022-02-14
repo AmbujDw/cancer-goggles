@@ -2,7 +2,6 @@
 requires = [
   "setuptools>=40.9.0",
   "wheel",
-  "cython==0.29.27",
 ]
 build-backend = "setuptools.build_meta"
 
@@ -10,9 +9,6 @@ build-backend = "setuptools.build_meta"
 minversion = "6.0"
 testpaths = "tests"
 addopts = "--strict-markers"
-markers = [
-    "fpga: mark test as requiring fpga to run",
-]
 
 [tool.black]
 target-version = ['py38']

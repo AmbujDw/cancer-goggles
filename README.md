@@ -17,9 +17,8 @@ conda activate goggles-dev
 See the official [documentation](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html) 
 for how to manage conda environments. 
 
-Build the Python binding for FPGA and install the App
+Install the App
 ```shell
-python setup.py build_ext
 python -m pip install -e .
 ```
 
@@ -50,15 +49,7 @@ python3 -m venv ~/virtualenvs/goggles-dev --system-site-packages
 
 Inside the `goggles-dev` environment, install dependencies
 ```shell
-pip install cython numpy opencv-python pytest
-```
-
-Then build the FPGA binding and install the App using the commend from the previous section.
-
-## Test the FPGA
-The `--runfpga` flag activates FPGA tests. Those tests would fail if the FPGA is not plugged in.
-```shell
-pytest --runfpga
+pip install numpy opencv-python pytest
 ```
 
 #### Note: All DLLs are taken from https://github.com/open-ephys/plugin-GUI
