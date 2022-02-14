@@ -1,6 +1,5 @@
 from time import time
 
-import cv2
 import numpy as np
 
 from src.ui import core, widgets  # isort: skip
@@ -32,6 +31,12 @@ class VideoPlayer(widgets.QWidget):
         self.image_view.setFixedSize(w, h)
         layout.addWidget(self.image_view)
 
+        self.goggle_view = widgets.QLabel()
+        self.goggle_view.setFixedSize(w, h)
+        self.goggle_view.hide()
+        self.goggle_view.setWindowFlag(core.Qt.CustomizeWindowHint, True)
+        self.goggle_view.setWindowFlag(core.Qt.WindowCloseButtonHint, False)
+
         self.default_fps_label = "0.00 FPS"
         self.fps_label = widgets.QLabel(self.default_fps_label)
         self.fps_label.setContentsMargins(5, 0, 5, 0)
@@ -55,8 +60,8 @@ class VideoPlayer(widgets.QWidget):
         self.realtime_fps = 0.0
         self.frame_counter = 0
 
-        self.black_frame = np.ones((h, w, 3))
-        self._set_default_image()
+        self.black_frame = ndarray_to_qpixmap(np.ones((h, w, 3)))
+        self.image_view.setPixmap(self.black_frame)
 
     def start_video(self):
         if not self.source.is_opened():
@@ -68,7 +73,7 @@ class VideoPlayer(widgets.QWidget):
     def stop_video(self):
         self.timer_video.stop()
         self.timer_fps.stop()
-        self._set_default_image()
+        self.image_view.setPixmap(self.black_frame)
         self._reset_fps()
 
     def snapshot(self):
@@ -80,13 +85,19 @@ class VideoPlayer(widgets.QWidget):
         if self.control_panel.segmentation_on:
             frame = thresholding(frame)
 
-        self._set_image(frame)
+        frame_pixmap = ndarray_to_qpixmap(frame)
+        self.image_view.setPixmap(frame_pixmap)
 
         if self.control_panel.is_recording:
             self.source.write()
 
+        goggle_view_visible = self.goggle_view.isVisible()
         if self.control_panel.project_to_goggle:
-            cv2.imshow("Goggles", frame)
+            if not goggle_view_visible:
+                self.goggle_view.show()
+            self.goggle_view.setPixmap(frame_pixmap)
+        elif goggle_view_visible:
+            self.goggle_view.hide()
 
         if self.frame_counter == 0:
             self.curr_time = time()
@@ -112,13 +123,6 @@ class VideoPlayer(widgets.QWidget):
 
     def _reset_fps(self):
         self.fps_label.setText(self.default_fps_label)
-
-    def _set_default_image(self) -> None:
-        self._set_image(self.black_frame)
-
-    def _set_image(self, frame: np.ndarray) -> None:
-        frame_pixmap = ndarray_to_qpixmap(frame)
-        self.image_view.setPixmap(frame_pixmap)
 
 
 class VideoControlPanel(widgets.QWidget):
@@ -184,8 +188,6 @@ class VideoControlPanel(widgets.QWidget):
 
     def to_goggle(self, state):
         self.project_to_goggle = True if state == core.Qt.Checked else False
-        if not self.project_to_goggle:
-            cv2.destroyAllWindows()
 
     def segmentation(self, state):
         self.segmentation_on = True if state == core.Qt.Checked else False
@@ -200,4 +202,3 @@ class VideoControlPanel(widgets.QWidget):
             self.cbx_record.click()
         if self.cbx_goggle.isChecked():
             self.cbx_goggle.click()
-        cv2.destroyAllWindows()
