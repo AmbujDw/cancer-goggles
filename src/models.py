@@ -84,12 +84,13 @@ class Camera:
             self.video_queue.task_done()
 
     def snapshot(self, root_path):
-        snapshot_thread = Thread(
-            target=self._snapshot_thread_function,
-            args=(root_path, self.cam_num, self.last_frame, self.last_timestamp),
-            daemon=True,
-        )
-        snapshot_thread.run()
+        if self.is_opened() and self.last_frame is not None:
+            snapshot_thread = Thread(
+                target=self._snapshot_thread_function,
+                args=(root_path, self.cam_num, self.last_frame, self.last_timestamp),
+                daemon=True,
+            )
+            snapshot_thread.run()
 
     @staticmethod
     def _snapshot_thread_function(root_path, cam_num, frame, timestamp):

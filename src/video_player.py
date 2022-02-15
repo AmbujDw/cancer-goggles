@@ -74,11 +74,10 @@ class VideoPlayer(widgets.QWidget):
         self.timer_video.stop()
         self.timer_fps.stop()
         self.image_view.setPixmap(self.black_frame)
-        self._reset_fps()
+        self.fps_label.setText(self.default_fps_label)
 
     def snapshot(self):
-        if self.source.is_opened():
-            self.source.snapshot(self.parent().parent().parent().root_path)
+        self.source.snapshot(self.parent().parent().parent().root_path)
 
     def update_image(self):
         frame = self.source.get_frame()
@@ -121,9 +120,6 @@ class VideoPlayer(widgets.QWidget):
     def cleanup(self):
         self.stop_video()
         self.control_panel.cleanup()
-
-    def _reset_fps(self):
-        self.fps_label.setText(self.default_fps_label)
 
 
 class VideoControlPanel(widgets.QWidget):
