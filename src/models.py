@@ -8,6 +8,10 @@ import cv2
 from src.utils import to_timestamped_frame
 
 
+def format_gst_str(width: int, height: int, fps: int):
+    return f"libcamerasrc ! video/x-raw, width={width}, height={height}, framerate={fps}/1 ! videoconvert ! videoscale ! autovideosink"
+
+
 class Camera:
     def __init__(self, cam_num, resolution, fourcc, fps, timestamped=False):
         self.cam_num = cam_num
@@ -22,18 +26,24 @@ class Camera:
         self.last_timestamp = None
         self.video_queue = Queue()
         self.video_thread = Thread(target=self._video_writer_worker, daemon=True)
+        self.pipeline = None
 
     def is_opened(self):
         return self.cap.isOpened()
 
     def open(self):
-        self.cap.open(self.cam_num)
+        cam_id = self.cam_num if self.pipeline is None else self.pipeline
+        self.cap.open(cam_id)
 
     def close(self):
         self.video_queue.join()
         if self.video_writer is not None:
             self.video_writer.release()
         self.cap.release()
+
+    def setup_gst_pipeline(self):
+        self.pipeline = format_gst_str(*self.resolution, self.fps)
+        self.cap = cv2.VideoCapture(self.pipeline, cv2.CAP_GSTREAMER)
 
     def get_frame(self):
         if not self.is_opened():

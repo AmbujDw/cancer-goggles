@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from datetime import datetime
 from enum import Enum
 
@@ -13,14 +15,17 @@ class Surgery(Enum):
     C = 4
 
 
+def check_camera(id: int | str):
+    cam = cv2.VideoCapture(id)
+    cam_on, _ = cam.read()
+    cam.release()
+    return cam_on
+
+
 def check_cameras():
-    cam_0 = cv2.VideoCapture(0)
-    cam_0_on, _ = cam_0.read()
-    cam_0.release()
-    cam_1 = cv2.VideoCapture(1)
-    cam_1_on, _ = cam_1.read()
-    cam_1.release()
-    return cam_0_on, cam_1_on
+    cam_on_0 = check_camera(0)
+    cam_on_1 = check_camera(1)
+    return cam_on_0, cam_on_1
 
 
 def ndarray_to_qpixmap(img):

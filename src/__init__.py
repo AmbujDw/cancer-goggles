@@ -5,6 +5,7 @@ from src.views import StartWindow
 
 
 def start_gui():
+
     cam_0_on, cam_1_on = check_cameras()
 
     resolution = (1280, 720)
@@ -22,6 +23,10 @@ def start_gui():
         if cam_1_on
         else None
     )
+
+    if camera_0 is None and camera_1 is None:
+        camera_0 = Camera(0, resolution, fourcc, fps, timestamped=timestamped)
+        camera_0.setup_gst_pipeline()
 
     app = widgets.QApplication([])
     start_window = StartWindow((camera_0, camera_1))
