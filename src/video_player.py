@@ -77,7 +77,8 @@ class VideoPlayer(widgets.QWidget):
         self._reset_fps()
 
     def snapshot(self):
-        self.source.snapshot(self.parent().parent().parent().root_path)
+        if self.source.is_opened():
+            self.source.snapshot(self.parent().parent().parent().root_path)
 
     def update_image(self):
         frame = self.source.get_frame()
