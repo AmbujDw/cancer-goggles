@@ -11,7 +11,7 @@ class ParameterItem(widgets.QGroupBox):
         label_param_name.setMinimumWidth(100)
         layout.addWidget(label_param_name)
 
-        param_slider = widgets.QSlider(widgets.Qt.Horizontal)
+        param_slider = widgets.QSlider(core.Qt.Horizontal)
         param_slider.setRange(int(low / step), int(high / step))
         param_slider.setFocusPolicy(core.Qt.NoFocus)
         param_slider.valueChanged.connect(self.change_value)
