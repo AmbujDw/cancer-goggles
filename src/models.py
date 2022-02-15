@@ -8,7 +8,8 @@ import cv2
 from src.utils import to_timestamped_frame
 
 
-def format_gst_str(width: int, height: int, fps: int):
+def format_gst_str(resolution, fps: int):
+    width, height = resolution
     return f"libcamerasrc ! video/x-raw, width={width}, height={height}, framerate={fps}/1 ! videoconvert ! videoscale ! autovideosink"
 
 
@@ -42,8 +43,10 @@ class Camera:
         self.cap.release()
 
     def setup_gst_pipeline(self):
-        self.pipeline = format_gst_str(*self.resolution, self.fps)
+        self.pipeline = format_gst_str(self.resolution, self.fps)
+        print(self.pipeline)
         self.cap = cv2.VideoCapture(self.pipeline, cv2.CAP_GSTREAMER)
+        print(self.is_opened())
 
     def get_frame(self):
         if not self.is_opened():
