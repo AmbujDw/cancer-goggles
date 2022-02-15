@@ -1,5 +1,5 @@
-from src.ui import widgets
 from src.parameter_item import ParameterItem
+from src.ui import widgets
 
 
 class ParameterDialog(widgets.QDialog):

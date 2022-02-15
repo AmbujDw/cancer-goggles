@@ -1,5 +1,5 @@
-from src.ui import widgets  # isort: skip
 from src.models import Camera
+from src.ui import widgets
 from src.utils import check_cameras
 from src.views import StartWindow
 

@@ -8,9 +8,6 @@ class VideoPanel(widgets.QWidget):
         layout = widgets.QGridLayout()
         self.player_0 = VideoPlayer(camera_0)
         layout.addWidget(self.player_0, 0, 0)
-
-        if camera_1 is not None:
-            self.player_1 = VideoPlayer(camera_1)
-            layout.addWidget(self.player_1, 0, 1)
-
+        self.player_1 = VideoPlayer(camera_1)
+        layout.addWidget(self.player_1, 0, 1)
         self.setLayout(layout)

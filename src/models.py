@@ -30,7 +30,10 @@ class Camera:
         self.cap.open(self.cam_num)
 
     def close(self):
-        self.__del__()
+        self.video_queue.join()
+        if self.video_writer is not None:
+            self.video_writer.release()
+        self.cap.release()
 
     def get_frame(self):
         if not self.is_opened():
@@ -45,7 +48,7 @@ class Camera:
         folder_path = Path(root_path, "video")
         if not folder_path.exists():
             folder_path.mkdir()
-        video_path = Path(folder_path, f"record_{int(time())}.avi")
+        video_path = Path(folder_path, f"record_{self.cam_num}_{int(time())}.avi")
         self.video_writer = cv2.VideoWriter(
             str(video_path), self.fourcc, self.fps, self.resolution
         )
@@ -70,24 +73,21 @@ class Camera:
     def snapshot(self, root_path):
         snapshot_thread = Thread(
             target=self._snapshot_thread_function,
-            args=(root_path, self.last_frame, self.last_timestamp),
+            args=(root_path, self.cam_num, self.last_frame, self.last_timestamp),
             daemon=True,
         )
         snapshot_thread.run()
 
     @staticmethod
-    def _snapshot_thread_function(root_path, frame, timestamp):
-        folder_path = Path(root_path, "image")
+    def _snapshot_thread_function(root_path, cam_num, frame, timestamp):
+        folder_path = Path(root_path, f"image_{cam_num}")
         if not folder_path.exists():
             folder_path.mkdir()
         snapshot_path = Path(folder_path, f"{timestamp}.jpg")
         cv2.imwrite(str(snapshot_path), frame)
 
     def __del__(self):
-        self.video_queue.join()
-        if self.video_writer is not None:
-            self.video_writer.release()
-        self.cap.release()
+        self.close()
 
     def __str__(self):
         return f"OpenCV Camera {self.cam_num}"

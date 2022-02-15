@@ -2,9 +2,9 @@ from time import time
 
 import numpy as np
 
-from src.ui import core, widgets  # isort: skip
 from src.algorithms.threshold import thresholding
 from src.models import Camera
+from src.ui import core, widgets
 from src.utils import ndarray_to_qpixmap
 
 

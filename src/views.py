@@ -1,9 +1,9 @@
 from pathlib import Path
 
-from src.ui import widgets  # isort: skip
 from src.meta_dialog import MetaDialog
 from src.parameter_dialog import ParameterDialog
 from src.parameters import parameters
+from src.ui import widgets
 from src.video_panel import VideoPanel
 
 milliseconds_per_seconds = 1000
@@ -39,7 +39,7 @@ class StartWindow(widgets.QMainWindow):
         self.btn_parameters.clicked.connect(self.set_parameters)
         self.layout.addWidget(self.btn_parameters, 0, 2)
 
-        self.panel = VideoPanel(camera[0], camera[1])
+        self.panel = VideoPanel(*camera)
         self.layout.addWidget(self.panel, 2, 0, 1, 3)
 
         self._create_status_bar()
