@@ -63,34 +63,4 @@ goggles
 ```
 
 ## QT Python Bindings
-There are two popular Python Qt bindings: PyQT and PySide. We are currently using PyQt5 5.15.4, which is the latest
-version available via `apt` on Ubuntu.
-
-## Alternatives of Qt
-[DearPyGui](https://github.com/hoffstadt/DearPyGui) is a new Python Gui framework. It's currently under our evaluation.
-There is a demo GUI implemented using this framework. You can check it out with
-
-```shell
-python [path to]dearpygui_testy.py
-```
-
-## Streaming
-
-### v4l2rtspserver
-
-Setup v4l2rtspserver on Pi following the [instruction](https://github.com/mpromonet/v4l2rtspserver/wiki/Setup-on-Pi).
-Then start the server by (for usb camera)
-```shell
-v4l2rtspserver -F 25 -H 480 -W 640 -P 8555 /dev/video0
-```
-
-Then using a machine on the same network, view the camera streaming using this script:
-```python
-import cv2
-
-vcap = cv2.VideoCapture("rtsp://[ip]:8555/unicast")
-while True:
-    ret, frame = vcap.read()
-    cv2.imshow('VIDEO', frame)
-    cv2.waitKey(1)
-```
+There are two popular Python Qt bindings: PyQT and PySide. We currently use PyQt5 on Raspberry Pi since it's available via `apt`. On other platforms, we use PySide6 since it has pre-build wheels available via `pip` for the Apple M1 machine. The app has a compatibility shim that would try to import PySide6 first; if not found, then import PyQt5. The app would work as long as either one of those packages is available in the virtual environment.
