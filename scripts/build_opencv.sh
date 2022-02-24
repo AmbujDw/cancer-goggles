@@ -9,4 +9,4 @@ export ENABLE_CONTRIB=0
 export ENABLE_HEADLESS=1
 # We want GStreamer support enabled.
 export CMAKE_ARGS="-DWITH_GSTREAMER=ON"
-python3 -m pip wheel . --verbose
+pip wheel . --verbose
