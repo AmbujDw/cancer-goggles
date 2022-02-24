@@ -10,7 +10,7 @@ from src.utils import to_timestamped_frame
 
 def format_gst_str(resolution, fps: int):
     width, height = resolution
-    return f"libcamerasrc ! video/x-raw, width={width}, height={height}, framerate={fps}/1 ! videoconvert ! videoscale ! autovideosink"
+    return f"libcamerasrc ! video/x-raw, width={width}, height={height}, framerate={fps}/1 ! videoconvert ! videoscale ! video/x-raw, width={width}, height={height} ! appsink;"
 
 
 class Camera:
