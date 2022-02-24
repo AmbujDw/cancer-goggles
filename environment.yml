@@ -3,14 +3,11 @@ channels:
   - conda-forge
 dependencies:
   - python=3.9
-  - cython=0.29.27
-  - matplotlib
+  - numpy
   - scikit-image
   - black
   - isort
-  - pytest
   - pip
   - pip:
     - PySide6
     - opencv-python-headless
-    - dearpygui

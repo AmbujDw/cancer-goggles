@@ -10,5 +10,3 @@ target-version = ['py38', 'py39']
 
 [tool.isort]
 profile = "black"
-src_paths = ["src", "tests"]
-skip = "setup.py"
