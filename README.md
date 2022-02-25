@@ -22,16 +22,19 @@ Install the App
 python -m pip install -e .
 ```
 
-## Raspberry Pi Setup
+## Raspberry Pi Setup (only on Buster for now)
 
-Qt's support for Arm devices is not great. The only prebuild Qt library on Arm is available via `apt`. 
-This instruction is for [Ubuntu Desktop 21.10 for Raspberry Pi 4](https://ubuntu.com/download/raspberry-pi). 
-
-We chose Ubuntu rather than Raspbian because 64-bit system performs better than 32-bit system with enough resource, 
-and Pi 4 has enough memory take all benefits of a 64-bit OS. Also, the default Python3 version of Ubuntu 21.10
-is 3.9, which is identical to the version used in development. So this OS requires the least setup.
+Qt has limited support for Arm devices. The only pre-build Qt library for Python on Pi is available via `apt`. 
 
 The following might not be the optimal solution. But it works for now.
+
+Update firmware
+```shell
+sudo rpi-update
+sudo reboot
+```
+
+Setup the Camera Module following the [Offical Guide](https://projects.raspberrypi.org/en/projects/getting-started-with-picamera).
 
 Update packages and install PyQt5
 ```shell
@@ -49,18 +52,19 @@ python3 -m venv ~/virtualenvs/goggles-dev --system-site-packages
 
 Inside the `goggles-dev` environment, install dependencies
 ```shell
-pip install numpy opencv-python-headless
+pip install -U pip setuptools wheel
+pip install -U numpy opencv-python-headless scikit-image
 ```
 
 ## Start the GUI
-Within `goggles-dev` environment,
+With the `goggles-dev` environment activated and inside of the project directory
 ```shell
 python -m src
 ```
-Or simply,
+Or if the app is installed in the environment, you can simply do
 ```shell
 goggles
 ```
 
 ## QT Python Bindings
-There are two popular Python Qt bindings: PyQT and PySide. We currently use PyQt5 on Raspberry Pi since it's available via `apt`. On other platforms, we use PySide6 since it has pre-build wheels available via `pip` for the Apple M1 machine. The app has a compatibility shim that would try to import PySide6 first; if not found, then import PyQt5. The app would work as long as either one of those packages is available in the virtual environment.
+There are two Python bindings for Qt: PyQT and PySide. We currently use PyQt5 on Raspberry Pi since it's available via `apt`. On other platforms, we use PySide6 since it has pre-build wheels available via `pip` for the Apple M1 machine. The app has a compatibility shim that would try to import PySide6 first; if not found, then import PyQt5. The app would work as long as either one of those packages is available in the virtual environment.
