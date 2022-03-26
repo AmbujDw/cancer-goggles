@@ -24,10 +24,6 @@ def start_gui():
         else None
     )
 
-    if camera_0 is None and camera_1 is None:
-        camera_0 = Camera(0, resolution, fourcc, fps, timestamped=timestamped)
-        camera_0.setup_gst_pipeline()
-
     app = widgets.QApplication([])
     start_window = StartWindow((camera_0, camera_1))
     start_window.show()
