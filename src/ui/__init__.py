@@ -1,13 +1,11 @@
+from platform import machine
 from importlib import import_module
-from importlib.util import find_spec
 
-if find_spec("PySide6") is not None:
-    target = "PySide6"
-elif find_spec("PyQt5") is not None:
-    target = "PyQt5"
-else:
-    raise RuntimeError("Cannot find PySide6 or PyQt5")
-qt = import_module(target)
-core = import_module(".QtCore", target)
-widgets = import_module(".QtWidgets", target)
-gui = import_module(".QtGui", target)
+is_rpi = machine() == "armv7l"
+
+gui_framework = "PyQt5" if is_rpi else "PySide6"
+
+qt = import_module(gui_framework)
+core = import_module(".QtCore", gui_framework)
+widgets = import_module(".QtWidgets", gui_framework)
+gui = import_module(".QtGui", gui_framework)
