@@ -1,7 +1,6 @@
-from platform import machine
 from importlib import import_module
 
-is_rpi = machine() == "armv7l"
+from src.utils import is_rpi
 
 gui_framework = "PyQt5" if is_rpi else "PySide6"
 

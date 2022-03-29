@@ -2,10 +2,11 @@ from __future__ import annotations
 
 from datetime import datetime
 from enum import Enum
+from platform import machine
 
 import cv2
 
-from src.ui import gui
+is_rpi = machine() == "armv7l"
 
 
 class Surgery(Enum):
@@ -26,14 +27,6 @@ def check_cameras():
     cam_on_0 = check_camera(0)
     cam_on_1 = check_camera(1)
     return cam_on_0, cam_on_1
-
-
-def ndarray_to_qpixmap(img):
-    if img.ndim == 2:
-        img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
-    w, h, _ = img.shape
-    qimg = gui.QImage(img.data, h, w, 3 * h, gui.QImage.Format_RGB888)
-    return gui.QPixmap(qimg)
 
 
 def to_timestamped_frame(img):

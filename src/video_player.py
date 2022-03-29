@@ -1,11 +1,19 @@
 from time import time
 
+import cv2
 import numpy as np
 
 from src.algorithms.threshold import thresholding
 from src.models import Camera
-from src.ui import core, widgets
-from src.utils import ndarray_to_qpixmap
+from src.ui import core, gui, widgets
+
+
+def ndarray_to_qpixmap(img: np.ndarray) -> gui.QPixmap:
+    if img.ndim == 2:
+        img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
+    w, h, _ = img.shape
+    qimg = gui.QImage(img.data, h, w, 3 * h, gui.QImage.Format_RGB888)
+    return gui.QPixmap(qimg)
 
 
 class VideoPlayer(widgets.QWidget):
