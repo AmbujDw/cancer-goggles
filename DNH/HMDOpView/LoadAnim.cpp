@@ -3,6 +3,7 @@
 #include "Utils/cvgShapes.h"
 #include "UISys/UIColor4.h"
 #include <iostream>
+#include <string> 
 
 TexObj LoadAnim::texChevron;
 TexObj LoadAnim::texInner;
@@ -23,13 +24,14 @@ inline float Lerp(float a, float b, float t)
 
 std::vector<LoadAnim::LoadTarg> LoadAnim::GetLoadTargs()
 {
+	std::string assets_dir = "Assets/";
 	std::vector<LoadAnim::LoadTarg> ret = 
 	{
-		{&texChevron,	"Load_Chevron.png"	},
-		{&texInner,		"Load_Inner.png"	},
-		{&texClip,		"Load_InnerClip.png"},
-		{&texHalo,		"Load_Halo.png"		},
-		{&texCog,		"Load_Cog.png"		}
+		{&texChevron,	assets_dir+"Load_Chevron.png"	},
+		{&texInner,		assets_dir+"Load_Inner.png"	},
+		{&texClip,		assets_dir+"Load_InnerClip.png"},
+		{&texHalo,		assets_dir+"Load_Halo.png"		},
+		{&texCog,		assets_dir+"Load_Cog.png"		}
 	};
 
 	return ret;

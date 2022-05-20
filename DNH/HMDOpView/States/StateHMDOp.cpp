@@ -5,6 +5,7 @@
 #include "../UISys/UIPlate.h"
 #include "../UISys/UIButton.h"
 #include <cmath>
+#include <string>
 
 void StateHMDOp::MouseDownState::Reset()
 {
@@ -38,14 +39,14 @@ StateHMDOp::StateHMDOp(HMDOpApp* app, GLWin* view, MainWin* core)
 		uiSys(-1, UIRect(0, 0, 1920, 1080))
 {
 	this->vertMenuPlate = new UIPlate( -1, UIRect(960, 540, 50.0f, 100.0f));
-
-	UIButton* btnLaser		= new UIButton(-1, UIRect(20.0f, -icoDim/2.0f, icoDim, icoDim), "Menu_Icon_Align.png"	);
+	std::string assets_dir = "Assets/";
+	UIButton* btnLaser		= new UIButton(-1, UIRect(20.0f, -icoDim/2.0f, icoDim, icoDim), assets_dir + "Menu_Icon_Align.png"	);
 	btnLaser->SetPivot(0.0f, 1.0f/5.0f);
-	UIButton* btnSettings	= new UIButton(-1, UIRect(20.0f, -icoDim/2.0f, icoDim, icoDim), "Menu_Icon_Sliders.png");
+	UIButton* btnSettings	= new UIButton(-1, UIRect(20.0f, -icoDim/2.0f, icoDim, icoDim), assets_dir + "Menu_Icon_Sliders.png");
 	btnSettings->SetPivot(0.0f, 2.0f/5.0f);
-	UIButton* btnAlign		= new UIButton(-1, UIRect(20.0f, -icoDim/2.0f, icoDim, icoDim), "Menu_Icon_Laser.png"	);
+	UIButton* btnAlign		= new UIButton(-1, UIRect(20.0f, -icoDim/2.0f, icoDim, icoDim), assets_dir + "Menu_Icon_Laser.png"	);
 	btnAlign->SetPivot(0.0f, 3.0f/5.0f);
-	UIButton* btnCamSets	= new UIButton(-1, UIRect(20.0f, -icoDim/2.0f, icoDim, icoDim), "Menu_Icon_Return.png"	);
+	UIButton* btnCamSets	= new UIButton(-1, UIRect(20.0f, -icoDim/2.0f, icoDim, icoDim), assets_dir + "Menu_Icon_Return.png"	);
 	btnCamSets->SetPivot(0.0f, 4.0f/5.0f);
 	this->vertMenuPlate->AddChild(btnLaser);
 	this->vertMenuPlate->AddChild(btnSettings);
@@ -332,15 +333,16 @@ void StateHMDOp::EnteredActive()
 	//
 	// most likely because the OpenGL context doesn't get initialized
 	// as fast as on Windows.
-	this->ico_MenuAlign.LODEIfEmpty("Menu_Icon_Align.png");
-	this->ico_MenuSliders.LODEIfEmpty("Menu_Icon_Sliders.png");
-	this->ico_MenuLaser.LODEIfEmpty("Menu_Icon_Laser.png");
-	this->ico_MenuReturn.LODEIfEmpty("Menu_Icon_Return.png");
+	std::string assets_dir = "Assets/";
+	this->ico_MenuAlign.LODEIfEmpty(assets_dir + "Menu_Icon_Align.png");
+	this->ico_MenuSliders.LODEIfEmpty(assets_dir + "Menu_Icon_Sliders.png");
+	this->ico_MenuLaser.LODEIfEmpty(assets_dir + "Menu_Icon_Laser.png");
+	this->ico_MenuReturn.LODEIfEmpty(assets_dir + "Menu_Icon_Return.png");
 
-	this->ico_MousePadLeft.LODEIfEmpty("Mousepad_Left.png");
-	this->ico_MousePadRight.LODEIfEmpty("Mousepad_Right.png");
-	this->ico_MousePadCrevice.LODEIfEmpty("Mousepad_Crevice.png");
-	this->ico_MousePadBall.LODEIfEmpty("Mousepad_MiddleBall.png");
+	this->ico_MousePadLeft.LODEIfEmpty(assets_dir + "Mousepad_Left.png");
+	this->ico_MousePadRight.LODEIfEmpty(assets_dir + "Mousepad_Right.png");
+	this->ico_MousePadCrevice.LODEIfEmpty(assets_dir + "Mousepad_Crevice.png");
+	this->ico_MousePadBall.LODEIfEmpty(assets_dir + "Mousepad_MiddleBall.png");
 
 	this->mdsLeft.Reset();
 	this->mdsMiddle.Reset();
