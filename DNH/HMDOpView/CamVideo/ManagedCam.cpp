@@ -652,6 +652,25 @@ cv::Ptr<cv::Mat> ManagedCam::ProcessImage(cv::Ptr<cv::Mat> inImg)
 	case ProcessingTypeEnum::yen_threshold_compressed:
 		return ThresholdImage(inImg, true);
 	
+	case ProcessingTypeEnum::two_stdev_from_mean:
+	{
+		cv::Mat mean, stddev;
+		//to simplify make greyscale first
+		cv::Ptr<cv::Mat> grey;
+		if (inImg->elemSize() != 1)
+		{
+			grey = new cv::Mat();
+			cv::cvtColor(*inImg, *grey, cv::COLOR_RGBA2GRAY, 0);
+		}
+		else 
+			grey = inImg;
+		cv::meanStdDev(*grey, mean, stddev);
+		float final_mean = mean.at<double>(0, 0);
+		float final_stddev = stddev.at<double>(0, 0);
+		//std::cout <<"mean : "<<final_mean << std::endl <<"stdev : "<< final_stddev << std::endl;
+		return SimpleThresholdImage(grey, final_mean +2*final_stddev);
+	};
+	
 	case ProcessingTypeEnum::static_threshold:
 		return SimpleThresholdImage(inImg, this->camOptions.processing.getValue());
 	}
@@ -674,8 +693,12 @@ bool ManagedCam::IsThresholded()
 	case ProcessingTypeEnum::yen_threshold_compressed:
 		return true;
 
+	case ProcessingTypeEnum::two_stdev_from_mean:
+		return true;
+
 	case ProcessingTypeEnum::static_threshold:
 		return true;
+
 	}
 
 	return false;

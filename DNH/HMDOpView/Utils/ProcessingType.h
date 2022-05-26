@@ -10,7 +10,7 @@ enum class ProcessingTypeEnum {
 	None,
 
 	/// <summary>
-	/// apply yen thresholding
+	/// apply yen thresholding with all the bells and whistles around it
 	/// </summary>
 	yen_threshold,
 
@@ -18,9 +18,14 @@ enum class ProcessingTypeEnum {
 	/// apply yen thresholding in a compressed fashion, no dialation, no floodfill
 	/// </summary>
 	yen_threshold_compressed,
+	
+	/// <summary>
+	/// apply a simple threshold 2 standard deviations away from the mean
+	/// </summary>
+	two_stdev_from_mean,
 
 	/// <summary>
-	/// This threshold is a static number
+	/// This threshold is a static number defined by the user
 	/// </summary>
 	static_threshold,
 

@@ -15,6 +15,9 @@ std::string to_string(ProcessingType ty)
 	case ProcessingTypeEnum::yen_threshold_compressed:
 		return "yen_threshold_compressed";
 
+	case ProcessingTypeEnum::two_stdev_from_mean:
+		return "two_stdev_from_mean";
+
 	case ProcessingTypeEnum::static_threshold:
 		return std::to_string(ty.getValue());
 	}
@@ -29,6 +32,9 @@ ProcessingType StringToProcessingType(const std::string& str)
 
 	if (str == "yen_threshold_compressed")
 		return ProcessingType(ProcessingTypeEnum::yen_threshold_compressed,NULL);
+
+	if (str == "two_stdev_from_mean")
+		return ProcessingType(ProcessingTypeEnum::two_stdev_from_mean, NULL);
 
 	if (str == "None")
 		return ProcessingType(ProcessingTypeEnum::None,NULL);
