@@ -539,6 +539,18 @@ bool ManagedCam::BootupPollingThread(int camIdx)
 	return true;
 }
 
+cv::Ptr<cv::Mat> ManagedCam::SimpleThresholdImage(cv::Ptr<cv::Mat> src, int threshold)
+{
+	cv::Mat thresholding;
+	cv::threshold(*src,
+		thresholding,
+		double(threshold),
+		255,
+		cv::THRESH_BINARY);
+	cv::Mat* thresholded = new cv::Mat(thresholding);
+	return thresholded;
+}
+
 cv::Ptr<cv::Mat> ManagedCam::ThresholdImage(cv::Ptr<cv::Mat> src, bool compressed)
 {
 	//Histogram constants
@@ -629,16 +641,19 @@ cv::Ptr<cv::Mat> ManagedCam::ThresholdImage(cv::Ptr<cv::Mat> src, bool compresse
 cv::Ptr<cv::Mat> ManagedCam::ProcessImage(cv::Ptr<cv::Mat> inImg)
 {
 	// When modifying this function, make sure to sync with IsThresholded().
-	switch (this->camOptions.processing)
+	switch (this->camOptions.processing.getType())
 	{
-	case ProcessingType::None:
+	case ProcessingTypeEnum::None:
 		return inImg;
 
-	case ProcessingType::yen_threshold:
+	case ProcessingTypeEnum::yen_threshold:
 		return ThresholdImage(inImg, false);
 
-	case ProcessingType::yen_threshold_compressed:
+	case ProcessingTypeEnum::yen_threshold_compressed:
 		return ThresholdImage(inImg, true);
+	
+	case ProcessingTypeEnum::static_threshold:
+		return SimpleThresholdImage(inImg, this->camOptions.processing.getValue());
 	}
 
 	cvgAssert(false,"Unhandled processing switch");
@@ -648,15 +663,18 @@ cv::Ptr<cv::Mat> ManagedCam::ProcessImage(cv::Ptr<cv::Mat> inImg)
 bool ManagedCam::IsThresholded()
 {
 	// When modifying this function, make sure to sync with ProcessImage().
-	switch (this->camOptions.processing)
+	switch (this->camOptions.processing.getType())
 	{
-	case ProcessingType::None:
+	case ProcessingTypeEnum::None:
 		return false;
 
-	case ProcessingType::yen_threshold:
+	case ProcessingTypeEnum::yen_threshold:
 		return true;
 
-	case ProcessingType::yen_threshold_compressed:
+	case ProcessingTypeEnum::yen_threshold_compressed:
+		return true;
+
+	case ProcessingTypeEnum::static_threshold:
 		return true;
 	}
 

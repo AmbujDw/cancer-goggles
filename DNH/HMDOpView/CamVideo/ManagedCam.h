@@ -315,12 +315,34 @@ public:
 	/// Note that the parameter and return value can
 	/// but dont have to be the same.
 	///  
-	/// It's expected that teh shared pointer class 
+	/// It's expected that the shared pointer class 
+	/// will preform all memory management needs
+	/// </summary>
+	/// <param name="src"> 
+	/// The image to threshold 
+	/// </param>
+	/// <param name="threshold"> 
+	/// The threshold to apply
+	/// </param>
+	/// <returns></returns>
+	cv::Ptr<cv::Mat> SimpleThresholdImage(cv::Ptr<cv::Mat> src, int threshold);
+
+	///<summary
+	/// Preforms thresholding and some additional cleanup on the target image
+	/// Should return a black and white image.
+	/// 
+	/// Note that the parameter and return value can
+	/// but dont have to be the same.
+	///  
+	/// It's expected that the shared pointer class 
 	/// will preform all memory management needs
 	/// </summary>
 	/// <param name="src"> The image to threshold </param>
+	/// <param name="compressed"> Bool to turn on the compressed version </param>
 	/// <returns></returns>
 	cv::Ptr<cv::Mat> ThresholdImage(cv::Ptr<cv::Mat> src, bool compressed);
+
+
 
 	/// <summary>
 	/// Perform image processing on the target image.

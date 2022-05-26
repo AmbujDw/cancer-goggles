@@ -64,9 +64,13 @@ void cvgCamFeedSource::ApplyJSON(const json& js)
 	if(js.contains("static_img") && js["static_img"].is_string())
 		this->staticImagePath = js["static_img"];
 
-	if (js.contains("processing") && js["processing"].is_string())
-		this->processing = StringToProcessingType(js["processing"]);
-		
+	if (js.contains("processing")) {
+		if (js["processing"].is_number())
+			this->processing = IntToProcessingType(js["processing"]);
+
+		else// if (js["processing"].is_string())
+			this->processing = StringToProcessingType(js["processing"]);
+	}
 }
 
 VideoPollType cvgCamFeedSource::GetUsedPoll() const

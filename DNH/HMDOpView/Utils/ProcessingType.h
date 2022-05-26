@@ -3,7 +3,7 @@
 /// <summary>
 /// enum for types of processing to apply
 /// </summary>
-enum class ProcessingType {
+enum class ProcessingTypeEnum {
 	/// <summary>
 	/// no processing needs to be applied
 	/// </summary>
@@ -20,10 +20,35 @@ enum class ProcessingType {
 	yen_threshold_compressed,
 
 	/// <summary>
+	/// This threshold is a static number
+	/// </summary>
+	static_threshold,
+
+	/// <summary>
 	/// not implemented
 	/// </summary>
-	
+
 };
+
+class ProcessingType {
+	private:
+		ProcessingTypeEnum type;
+		int value; // only needs to be initialised in case of static threshold	
+
+	public :
+		ProcessingType(ProcessingTypeEnum type, int value)
+		{
+			this->type = type;
+			this->value = value;
+		};
+
+		ProcessingTypeEnum getType()
+		{return type;}
+		
+		int getValue()
+		{return value;}
+};
+
 
 /// <summary>
 /// Convert a ProcessingType to a serialiable string value.
@@ -38,11 +63,20 @@ enum class ProcessingType {
 std::string to_string(ProcessingType ty);
 
 /// <summary>
-/// Convert a ProcessingType to a serialiable string value.
+/// Convert a serialiable string value to a ProcessingType.
 /// </summary>
-/// <param name="ty">TThe name of a ProcessingType to convert to an enum.</param>
+/// <param name="str">TThe name of a ProcessingType to convert to a Processing Type.</param>
 /// <returns>
-/// An enum version of a ProcessingType string. If the string is not recognized,
+/// The correct ProcessingType as defined by the ProcessingType string. If the string is not recognized,
 /// it is defaulted to ProcessingType::None.
 /// </returns>
 ProcessingType StringToProcessingType(const std::string& str);
+
+/// <summary>
+/// Convert a serialiable float value to a ProcessingType.
+/// </summary>
+/// <param name="value">The value of a static threshold.</param>
+/// <returns>
+/// A static_threshold ProcessingType with the value given. 
+/// </returns>
+ProcessingType IntToProcessingType(int value);

@@ -65,7 +65,7 @@ public:
 	/// </summary>
 	int pipeHeight = 480;
 
-	ProcessingType processing = ProcessingType::None;
+	ProcessingType processing = ProcessingType(ProcessingTypeEnum::None, NULL);
 };
 
 
